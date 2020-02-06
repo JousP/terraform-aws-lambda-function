@@ -53,7 +53,7 @@ output "log_group_retention_in_days" {
   value       = "${element(concat(aws_cloudwatch_log_group.lambda.*.retention_in_days, list("")), 0)}"
 }
 
-output "log_group_tags" {
-  description = "Tags associated with the log group for the lambda function."
-  value       = "${aws_cloudwatch_log_group.lambda.*.tags}"
-}
+# output "log_group_tags" {
+#   description = "Tags associated with the log group for the lambda function."
+#   value       = "${aws_cloudwatch_log_group.lambda.*.tags}"
+# }
