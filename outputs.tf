@@ -1,41 +1,41 @@
 output "arn" {
   description = "The Amazon Resource Name (ARN) identifying your Lambda Function."
-  value       = element(concat(aws_lambda_function.main.*.arn, [""]), 0)
+  value       = aws_lambda_function.main.arn
 }
 
 output "qualified_arn" {
   description = "The Amazon Resource Name (ARN) identifying your Lambda Function Version (if versioning is enabled via publish = true)."
-  value       = element(concat(aws_lambda_function.main.*.qualified_arn, [""]), 0)
+  value       = aws_lambda_function.main.qualified_arn
 }
 
 output "invoke_arn" {
   description = "The ARN to be used for invoking Lambda Function from API Gateway to be used in aws_api_gateway_integration's uri"
-  value       = element(concat(aws_lambda_function.main.*.invoke_arn, [""]), 0)
+  value       = aws_lambda_function.main.invoke_arn
 }
 
 output "version" {
   description = "Latest published version of your Lambda Function."
-  value       = element(concat(aws_lambda_function.main.*.version, [""]), 0)
+  value       = aws_lambda_function.main.version
 }
 
 output "last_modified" {
   description = "The date this resource was last modified."
-  value       = element(concat(aws_lambda_function.main.*.last_modified, [""]), 0)
+  value       = aws_lambda_function.main.last_modified
 }
 
 output "kms_key_arn" {
   description = "The ARN for the KMS encryption key."
-  value     = element(concat(aws_lambda_function.main.*.kms_key_arn, [""]), 0)
+  value       = aws_lambda_function.main.kms_key_arn
 }
 
 output "source_code_hash" {
   description = "Base64-encoded representation of raw SHA-256 sum of the zip file provided either via filename or s3_* parameters."
-  value       = element(concat(aws_lambda_function.main.*.source_code_hash, [""]), 0)
+  value       = aws_lambda_function.main.source_code_hash
 }
 
 output "source_code_size" {
   description = "The size in bytes of the function .zip file."
-  value     = element(concat(aws_lambda_function.main.*.source_code_size, [""]), 0)
+  value       = aws_lambda_function.main.source_code_size
 }
 
 output "alias_arn" {
@@ -45,24 +45,21 @@ output "alias_arn" {
 
 output "log_group_arn" {
   description = "The Amazon Resource Name (ARN) specifying the log group for the lambda function."
-  value       = element(concat(aws_cloudwatch_log_group.lambda.*.arn, [""]), 0)
+  value       = aws_cloudwatch_log_group.lambda.arn
 }
 
 output "log_group_name" {
   description = "The Name of the log group for the lambda function."
-  value       = element(concat(aws_cloudwatch_log_group.lambda.*.name, [""]), 0)
+  value       = aws_cloudwatch_log_group.lambda.name
 }
 
 output "log_group_retention_in_days" {
   description = "The number of days log events are retained in the log group for the lambda function."
-  value = element(
-    concat(aws_cloudwatch_log_group.lambda.*.retention_in_days, [""]),
-    0,
-  )
+  value       = aws_cloudwatch_log_group.lambda.retention_in_days
 }
 
 output "log_group_tags" {
   description = "Tags associated with the log group for the lambda function."
-  value       = aws_cloudwatch_log_group.lambda.*.tags
+  value       = aws_cloudwatch_log_group.lambda.tags
 }
 

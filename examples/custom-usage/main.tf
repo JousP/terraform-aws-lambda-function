@@ -1,67 +1,45 @@
-resource "aws_iam_role" "lambda" {
-  name               = "lambda-basic-example"
-  assume_role_policy = <<-EOF
-  {
-    "Version": "2012-10-17",
-    "Statement": [
-      {
-        "Action": "sts:AssumeRole",
-        "Principal": {
-          "Service": "lambda.amazonaws.com"
-        },
-        "Effect": "Allow",
-        "Sid": ""
-      }
-    ]
-  }
-EOF
-
+# Create a custom role for the lambda function
+module "lambda_role" {
+  source              = "JousP/iam-assumeRole/aws"
+  version             = "~> 3.2"
+  name                = "custom-usage-lambda-role"
+  service_identifiers = ["lambda.amazonaws.com"]
+  managed_policy_arns = ["arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"]
 }
 
-resource "aws_iam_role_policy_attachment" "lambda_role" {
-  role       = aws_iam_role.lambda.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
-}
-
-data "null_data_source" "lambda_file" {
-  inputs = {
-    filename = "lambda/main.py"
-  }
-}
-
-data "null_data_source" "lambda_archive" {
-  inputs = {
-    filename = "lambda/main.zip"
-  }
+locals {
+  lambda_archive_prefix      = "lambda/main"
+  lambda_archive_source_file = join(".", [local.lambda_archive_prefix, "py"])
+  lambda_archive_output_path = join(".", [local.lambda_archive_prefix, "zip"])
 }
 
 data "archive_file" "lambda_filename" {
   type        = "zip"
-  source_file = data.null_data_source.lambda_file.outputs.filename
-  output_path = data.null_data_source.lambda_archive.outputs.filename
+  source_file = local.lambda_archive_source_file
+  output_path = local.lambda_archive_output_path
 }
 
 module "lambda_custom" {
-  source               = "JousP/lambda-function/aws"
-  version              = "~> 2.0"
-  function_name        = "custom-example"
-  description          = "custom-example function"
-  create_alias         = true
-  filename             = data.archive_file.lambda_filename.output_path
-  source_code_hash     = data.archive_file.lambda_filename.output_base64sha256
-  handler              = "main.handler"
-  role                 = aws_iam_role.lambda.arn
-  runtime              = "python3.6"
-  memory_size          = 512
-  timeout              = 15
-  publish              = true
-  vpc_config           = {
+  source           = "JousP/lambda-function/aws"
+  version          = "~> 3.0"
+  function_name    = "custom-example"
+  description      = "custom-example function"
+  create_alias     = true
+  filename         = data.archive_file.lambda_filename.output_path
+  source_code_hash = data.archive_file.lambda_filename.output_base64sha256
+  handler          = "main.handler"
+  role             = module.lambda_role.arn
+  runtime          = "python3.6"
+  memory_size      = 512
+  timeout          = 15
+  publish          = true
+  vpc_config = {
     subnet_ids         = [aws_subnet.aza.id, aws_subnet.azb.id]
-   security_group_ids  = [aws_security_group.sg.id]
+    security_group_ids = [aws_security_group.sg.id]
   }
-  environment          = {
-    variables          = {
-      test             = "1"
+  environment = {
+    variables = {
+      test = "1"
     }
   }
   permission_principal = "events.amazonaws.com"
