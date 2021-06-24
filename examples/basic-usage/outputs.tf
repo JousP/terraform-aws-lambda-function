@@ -206,12 +206,6 @@ output "lambda_basic_permission_statement_id_prefix" {
   value = module.lambda_basic.permission_statement_id_prefix
 }
 
-
-
-
-
-
-
 output "lambda_basic_alias_permission_action" {
   value = module.lambda_basic.alias_permission_action
 }

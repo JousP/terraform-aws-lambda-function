@@ -206,12 +206,6 @@ output "lambda_custom_permission_statement_id_prefix" {
   value = module.lambda_custom.permission_statement_id_prefix
 }
 
-
-
-
-
-
-
 output "lambda_custom_alias_permission_action" {
   value = module.lambda_custom.alias_permission_action
 }
