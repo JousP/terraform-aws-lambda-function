@@ -21,7 +21,7 @@ data "archive_file" "lambda_filename" {
 
 module "lambda_custom" {
   source           = "JousP/lambda-function/aws"
-  version          = "~> 3.0"
+  version          = "~> 3.1"
   function_name    = "custom-example"
   description      = "custom-example function"
   create_alias     = true
@@ -45,69 +45,3 @@ module "lambda_custom" {
   permission_principal = "events.amazonaws.com"
   tags                 = local.tags
 }
-
-output "lambda_custom_arn" {
-  description = "The Amazon Resource Name (ARN) identifying your Lambda Function."
-  value       = module.lambda_custom.arn
-}
-
-output "lambda_custom_qualified_arn" {
-  description = "The Amazon Resource Name (ARN) identifying your Lambda Function Version (if versioning is enabled via publish = true)."
-  value       = module.lambda_custom.qualified_arn
-}
-
-output "lambda_custom_invoke_arn" {
-  description = "The ARN to be used for invoking Lambda Function from API Gateway to be used in aws_api_gateway_integration's uri"
-  value       = module.lambda_custom.invoke_arn
-}
-
-output "lambda_custom_version" {
-  description = "Latest published version of your Lambda Function."
-  value       = module.lambda_custom.version
-}
-
-output "lambda_custom_last_modified" {
-  description = "The date this resource was last modified."
-  value       = module.lambda_custom.last_modified
-}
-
-output "lambda_custom_kms_key_arn" {
-  description = "The date this resource was last modified."
-  value       = module.lambda_custom.kms_key_arn
-}
-
-output "lambda_custom_source_code_hash" {
-  description = "Base64-encoded representation of raw SHA-256 sum of the zip file provided either via filename or s3_* parameters."
-  value       = module.lambda_custom.source_code_hash
-}
-
-output "lambda_custom_source_code_size" {
-  description = "Base64-encoded representation of raw SHA-256 sum of the zip file provided either via filename or s3_* parameters."
-  value       = module.lambda_custom.source_code_size
-}
-
-output "lambda_custom_alias_arn" {
-  description = "The Amazon Resource Name (ARN) identifying the Lambda function alias."
-  value       = module.lambda_custom.alias_arn
-}
-
-output "lambda_custom_log_group_arn" {
-  description = "The Amazon Resource Name (ARN) specifying the log group for the lambda function."
-  value       = module.lambda_custom.log_group_arn
-}
-
-output "lambda_custom_log_group_name" {
-  description = "The Name of the log group for the lambda function."
-  value       = module.lambda_custom.log_group_name
-}
-
-output "lambda_custom_log_group_retention_in_days" {
-  description = "The number of days log events are retained in the log group for the lambda function."
-  value       = module.lambda_custom.log_group_retention_in_days
-}
-
-output "lambda_custom_log_group_tags" {
-  description = "Tags associated with the log group for the lambda function."
-  value       = module.lambda_custom.log_group_tags
-}
-
