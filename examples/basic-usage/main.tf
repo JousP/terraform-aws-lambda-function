@@ -21,7 +21,7 @@ data "archive_file" "lambda_filename" {
 
 module "lambda_basic" {
   source           = "JousP/lambda-function/aws"
-  version          = "~> 3.1"
+  version          = "~> 3.2"
   function_name    = "basic-example"
   description      = "basic-example function"
   filename         = data.archive_file.lambda_filename.output_path

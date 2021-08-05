@@ -1,7 +1,7 @@
 # Create a custom role for the lambda function
 module "lambda_role" {
   source              = "JousP/iam-assumeRole/aws"
-  version             = "~> 3.2"
+  version             = "~> 3.3"
   name                = "custom-usage-lambda-role"
   service_identifiers = ["lambda.amazonaws.com"]
   managed_policy_arns = ["arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"]
@@ -21,7 +21,7 @@ data "archive_file" "lambda_filename" {
 
 module "lambda_custom" {
   source           = "JousP/lambda-function/aws"
-  version          = "~> 3.1"
+  version          = "~> 3.2"
   function_name    = "custom-example"
   description      = "custom-example function"
   create_alias     = true
