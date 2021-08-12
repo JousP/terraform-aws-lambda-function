@@ -17,7 +17,7 @@ resource "aws_lambda_function" "main" {
   s3_bucket                      = var.s3_bucket
   s3_key                         = var.s3_key
   s3_object_version              = var.s3_object_version
-  source_code_hash               = var.source_code_hash != null ? var.source_code_hash : filebase64sha256(var.filename)
+  source_code_hash               = var.source_code_hash
   tags                           = var.tags
   timeout                        = var.timeout
   dynamic "dead_letter_config" {
